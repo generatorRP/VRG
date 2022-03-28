@@ -1,0 +1,30 @@
+.settings-widget {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  padding: 0.5rem;
+  background-color: antiquewhite;
+  border-radius: 1rem 0 0 1rem;
+  transition: all 0.3s ease;
+  transform: translate(calc(100% - 4rem), 0);
+
+  .icon {
+    margin-right: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .settings-form {
+    height: 0;
+    transition: all 0.3s ease;
+
+    &.active {
+      height: auto;
+    }
+  }
+
+  &.active {
+    transform: translate(0, 0);
+  }
+}
