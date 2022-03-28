@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkclient=self.webpackChunkclient||[]).push([[561],{561:function(e,c,t){e.exports=t.p+"static/media/deputy-chief.7e7c642a1c9430e4e704.png"}}]);

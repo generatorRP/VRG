@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkclient=self.webpackChunkclient||[]).push([[640],{640:function(e,a,c){e.exports=c.p+"static/media/supervising-paramedic.3ca8a4aab6d3b2872edc.png"}}]);

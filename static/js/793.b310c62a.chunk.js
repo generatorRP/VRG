@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkclient=self.webpackChunkclient||[]).push([[793],{793:function(e,s,t){e.exports=t.p+"static/media/assistant-chief.d7f1e3bb35dc1a4a3814.png"}}]);
