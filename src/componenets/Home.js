@@ -12,6 +12,7 @@ const Home = () => {
     changeFavIcon(Fav);
     changeSiteName('Vital RP Generator');
   }, []);
+
   return (
     <div className='home-page d-flex justify-content-center align-items-center'>
       <div className='logo'>
