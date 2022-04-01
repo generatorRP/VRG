@@ -3,28 +3,35 @@
   top: 50%;
   right: 0;
   padding: 0.5rem;
-  background-color: antiquewhite;
+  background-color: rgb(103, 5, 0);
   border-radius: 1rem 0 0 1rem;
-  transition: all 0.3s ease;
-  transform: translate(calc(100% - 4rem), 0);
+  transform: translateY(-50%);
 
   .icon {
-    margin-right: 0.5rem;
-    padding: 0.5rem;
+    padding: 0.25rem;
     border-radius: 50%;
+    color: white;
     cursor: pointer;
   }
+}
+.panel {
+  height: 100%;
+  width: 380px;
+  padding: 1.6rem;
+  background-color: white;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 100;
 
-  .settings-form {
-    height: 0;
-    transition: all 0.3s ease;
-
-    &.active {
-      height: auto;
-    }
+  .btn-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
   }
 
-  &.active {
-    transform: translate(0, 0);
+  .wrapper {
+    border: 1px solid #eee;
+    border-radius: 0.5rem;
+    height: 100%;
   }
 }

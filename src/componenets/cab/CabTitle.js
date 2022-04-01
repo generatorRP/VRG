@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import TitleImg from '../../assets/images/cab/title.png';
 import HeaderCanvas from '../shared/HeaderCanvas';
+import generateCanvas from '../../utils/generateCanvas';
+import { BT_BRIK } from '../../utils/fontTypes';
 
 const CabTitle = () => {
   const canvas = useRef();
@@ -8,17 +10,19 @@ const CabTitle = () => {
   const [canvasInputOne, setCanvasInputOne] = useState('');
 
   const renderCanvas = () => {
-    const ctx = canvas.current.getContext('2d');
-    canvas.current.width = canvasImage.current.naturalWidth;
-    canvas.current.height = canvasImage.current.naturalHeight;
-    ctx.drawImage(canvasImage.current, 0, 0);
-    ctx.textAlign = 'start';
-    ctx.fillStyle = 'white';
-    ctx.shadowOffsetY = 5;
-    ctx.shadowColor = 'rgba(0,0,0,0.8)';
-    ctx.shadowBlur = 5;
-    ctx.font = '52px BTBrikRegular';
-    ctx.fillText(canvasInputOne.toUpperCase().trim(), 50, 50);
+    generateCanvas({
+      canvas: canvas.current,
+      canvasImage: canvasImage.current,
+      textAlign: 'start',
+      fillStyle: 'white',
+      fontFamily: BT_BRIK,
+      firstInput: {
+        fontSize: 52,
+        value: canvasInputOne,
+        xAxis: 50,
+        yAxis: 50,
+      },
+    });
   };
 
   useEffect(() => {

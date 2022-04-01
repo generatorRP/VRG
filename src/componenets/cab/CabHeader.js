@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import HeaderImg from '../../assets/images/cab/header.png';
 import HeaderCanvas from '../shared/HeaderCanvas';
+import generateCanvas from '../../utils/generateCanvas';
+import { BT_BRIK } from '../../utils/fontTypes';
 
 const CabHeader = () => {
   const canvas = useRef();
@@ -9,21 +11,25 @@ const CabHeader = () => {
   const [canvasInputTwo, setCanvasInputTwo] = useState('');
 
   const renderCanvas = () => {
-    const ctx = canvas.current.getContext('2d');
-    canvas.current.width = canvasImage.current.naturalWidth;
-    canvas.current.height = canvasImage.current.naturalHeight;
-    ctx.drawImage(canvasImage.current, 0, 0);
-    ctx.textAlign = 'center';
-    ctx.fillStyle = 'white';
-    // Draw cached Text
-    ctx.shadowOffsetY = 5;
-    ctx.shadowColor = 'rgba(0,0,0, 1)';
-    ctx.shadowBlur = 5;
-    // Text starts centered at 1190
-    ctx.font = '72px BTBrikRegular';
-    ctx.fillText(canvasInputOne.toUpperCase().trim(), 1100, 140);
-    ctx.font = '52px BTBrikRegular';
-    ctx.fillText(canvasInputTwo.toUpperCase().trim(), 1100, 200);
+    generateCanvas({
+      canvas: canvas.current,
+      canvasImage: canvasImage.current,
+      textAlign: 'center',
+      fillStyle: 'white',
+      fontFamily: BT_BRIK,
+      firstInput: {
+        fontSize: 72,
+        value: canvasInputOne,
+        xAxis: 1100,
+        yAxis: 140,
+      },
+      secondInput: {
+        fontSize: 52,
+        value: canvasInputTwo,
+        xAxis: 1100,
+        yAxis: 200,
+      },
+    });
   };
 
   useEffect(() => {

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import HeaderImg from '../../assets/images/weazel/header.png';
 import HeaderCanvas from '../shared/HeaderCanvas';
+import generateCanvas from '../../utils/generateCanvas';
+import { BT_BRIK } from '../../utils/fontTypes';
 
 const WeazelHeader = () => {
   const canvas = useRef();
@@ -9,21 +11,26 @@ const WeazelHeader = () => {
   const [canvasInputTwo, setCanvasInputTwo] = useState('');
 
   const renderCanvas = () => {
-    const ctx = canvas.current.getContext('2d');
-    canvas.current.width = canvasImage.current.naturalWidth;
-    canvas.current.height = canvasImage.current.naturalHeight;
-    ctx.drawImage(canvasImage.current, 0, 0);
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#2a2a2a';
-    // Draw cached Text
-    ctx.shadowOffsetY = 5;
-    ctx.shadowColor = '#696969';
-    ctx.shadowBlur = 5;
-    // Text starts centered at 1190
-    ctx.font = '72px BTBrikRegular';
-    ctx.fillText(canvasInputOne.toUpperCase().trim(), 1200, 160);
-    ctx.font = '52px BTBrikRegular';
-    ctx.fillText(canvasInputTwo.toUpperCase().trim(), 1200, 220);
+    generateCanvas({
+      canvas: canvas.current,
+      canvasImage: canvasImage.current,
+      textAlign: 'center',
+      fillStyle: '#2a2a2a',
+      shadowColor: '#696969',
+      fontFamily: BT_BRIK,
+      firstInput: {
+        fontSize: 72,
+        value: canvasInputOne,
+        xAxis: 1200,
+        yAxis: 160,
+      },
+      secondInput: {
+        fontSize: 52,
+        value: canvasInputTwo,
+        xAxis: 1200,
+        yAxis: 220,
+      },
+    });
   };
 
   useEffect(() => {

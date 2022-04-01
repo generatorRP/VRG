@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import SignatureImg from '../../assets/images/cab/signature.png';
 import HeaderCanvas from '../shared/HeaderCanvas';
 import SignatureItem from '../shared/SignatureItem';
+import generateCanvas from '../../utils/generateCanvas';
+import { SANS_PRO } from '../../utils/fontTypes';
 
 const CabSignature = () => {
   const canvas = useRef();
@@ -20,31 +22,42 @@ const CabSignature = () => {
   const { fullname, badge, canvasInputOne, canvasInputTwo } = signatureData;
 
   const renderCanvas = () => {
-    const ctx = canvas.current.getContext('2d');
-    canvas.current.width = canvasImage.current.naturalWidth;
-    canvas.current.height = canvasImage.current.naturalHeight;
-    ctx.drawImage(canvasImage.current, 0, 0);
-    ctx.textAlign = 'left';
-    ctx.fillStyle = 'white';
-    ctx.shadowOffsetY = 5;
-    ctx.shadowColor = 'rgba(0,0,0,0.9)';
-    ctx.shadowBlur = 5;
-
-    ctx.font = '68px Source Sans Pro';
-    ctx.fillText(fullname.toUpperCase().trim(), 500, 130);
-    ctx.font = '46px Source Sans Pro';
-    ctx.fillText(badge.toUpperCase().trim(), 500, 190);
-    ctx.shadowOffsetY = 3;
-    ctx.shadowOffsetx = 3;
-    ctx.shadowBlur = 1;
-    ctx.font = '34px Source Sans Pro';
-    ctx.fontWeight = 'bold';
-
-    if (selectedRank !== null) {
-      ctx.fillText(selectedRank.toUpperCase().trim(), 500, 255);
-    }
-    ctx.fillText(canvasInputOne.toUpperCase().trim(), 500, 305);
-    ctx.fillText(canvasInputTwo.toUpperCase().trim(), 500, 350);
+    generateCanvas({
+      canvas: canvas.current,
+      canvasImage: canvasImage.current,
+      textAlign: 'left',
+      fillStyle: 'white',
+      fullname: {
+        fontSize: 68,
+        value: fullname,
+        xAxis: 500,
+        yAxis: 130,
+      },
+      badge: {
+        fontSize: 46,
+        value: badge,
+        xAxis: 500,
+        yAxis: 190,
+      },
+      rankText: selectedRank && {
+        fontSize: 34,
+        value: selectedRank,
+        xAxis: 500,
+        yAxis: 255,
+      },
+      firstInput: {
+        fontSize: 34,
+        value: canvasInputOne,
+        xAxis: 500,
+        yAxis: 305,
+      },
+      secondInput: {
+        fontSize: 34,
+        value: canvasInputTwo,
+        xAxis: 500,
+        yAxis: 350,
+      },
+    });
   };
 
   useEffect(() => {

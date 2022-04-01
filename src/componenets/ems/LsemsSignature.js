@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import SignatureImg from '../../assets/images/ems/signature.png';
 import HeaderCanvas from '../shared/HeaderCanvas';
 import SignatureItem from '../shared/SignatureItem';
+import generateCanvas from '../../utils/generateCanvas';
+import { SANS_PRO } from '../../utils/fontTypes';
 
 const LsemsSignature = () => {
   const canvas = useRef();
@@ -22,32 +24,42 @@ const LsemsSignature = () => {
   const { fullname, badge, canvasInputOne, canvasInputTwo } = signatureData;
 
   const renderCanvas = () => {
-    const ctx = canvas.current.getContext('2d');
-    canvas.current.width = canvasImage.current.naturalWidth;
-    canvas.current.height = canvasImage.current.naturalHeight;
-    ctx.textAlign = 'left';
-    ctx.fillStyle = 'white';
-    ctx.drawImage(canvasImage.current, 0, 0);
-    if (selectedRankImg) {
-      ctx.drawImage(rankImg.current, 465, 105);
-    }
-    // Set text properties
-    ctx.shadowOffsetY = 5;
-    ctx.shadowOffsetx = 4;
-    ctx.shadowColor = 'rgb(0,0,0)';
-    ctx.shadowBlur = 4;
-
-    ctx.font = '60px Source Sans Pro';
-    ctx.fillText(fullname.toUpperCase().trim(), 700, 130);
-    ctx.font = '46px Source Sans Pro';
-    ctx.fillText(badge.toUpperCase().trim(), 700, 190);
-    ctx.shadowOffsetY = 3;
-    ctx.shadowOffsetx = 3;
-    ctx.shadowBlur = 1;
-    ctx.font = '34px Source Sans Pro';
-    ctx.fontWeight = 'bold';
-    ctx.fillText(canvasInputOne.toUpperCase().trim(), 700, 260);
-    ctx.fillText(canvasInputTwo.toUpperCase().trim(), 700, 310);
+    generateCanvas({
+      canvas: canvas.current,
+      canvasImage: canvasImage.current,
+      textAlign: 'left',
+      fillStyle: 'white',
+      fontFamily: SANS_PRO,
+      fullname: {
+        fontSize: 60,
+        value: fullname,
+        xAxis: 700,
+        yAxis: 130,
+      },
+      badge: {
+        fontSize: 46,
+        value: badge,
+        xAxis: 700,
+        yAxis: 190,
+      },
+      rankImg: selectedRankImg && {
+        img: rankImg.current,
+        xAxis: 465,
+        yAxis: 105,
+      },
+      firstInput: {
+        fontSize: 34,
+        value: canvasInputOne,
+        xAxis: 700,
+        yAxis: 260,
+      },
+      secondInput: {
+        fontSize: 34,
+        value: canvasInputTwo,
+        xAxis: 700,
+        yAxis: 310,
+      },
+    });
   };
 
   useEffect(() => {

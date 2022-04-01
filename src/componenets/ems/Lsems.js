@@ -4,7 +4,7 @@ import LsemsNav from './LsemsNav';
 import LsemsHeader from './LsemsHeader';
 import LsemsTitle from './LsemsTitle';
 import LsemsFav from '../../assets/images/ems/favicon.png';
-// import SettingsWidget from '../widgets/SettingsWidget';
+import SettingsWidget from '../widgets/SettingsWidget';
 
 import { changeFavIcon, changeSiteName } from '../../utils/siteSettings';
 import LsemsSignature from './LsemsSignature';
@@ -19,7 +19,7 @@ const Lsems = () => {
       <div className='generator-page ems'>
         <LsemsNav />
         {/* Feature */}
-        {/* <SettingsWidget /> */}
+        <SettingsWidget />
         <Routes>
           <Route index element={<LsemsHeader />} />
           <Route path='title' element={<LsemsTitle />} />
