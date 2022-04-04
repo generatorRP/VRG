@@ -1,13 +1,29 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, connect } from 'react-redux';
+
+import { BT_BRIK } from '../../utils/fontTypes';
+import { EMS_LAYOUT_SETTINGS } from '../../actions/types';
+
 import TitleImg from '../../assets/images/ems/title.png';
 import HeaderCanvas from '../shared/HeaderCanvas';
 import generateCanvas from '../../utils/generateCanvas';
-import { BT_BRIK } from '../../utils/fontTypes';
 
-const LsemsTitle = () => {
+import { loadLayoutSettings } from '../../actions/settingsWidget';
+
+const LsemsTitle = ({ loadLayoutSettings }) => {
   const canvas = useRef();
   const canvasImage = useRef();
   const [canvasInputOne, setCanvasInputOne] = useState('');
+
+  const { title } = useSelector((state) => state.ems.layout);
+
+  const { inputOne } = title;
+
+  const setLayout = () =>
+    loadLayoutSettings(EMS_LAYOUT_SETTINGS, `ems.title`, {
+      height: canvasImage.current.naturalHeight,
+      width: canvasImage.current.naturalWidth,
+    });
 
   const renderCanvas = () => {
     generateCanvas({
@@ -16,18 +32,18 @@ const LsemsTitle = () => {
       textAlign: 'start',
       fillStyle: 'white',
       fontFamily: BT_BRIK,
-      firstInput: {
-        fontSize: 52,
+      inputOne: {
+        fontSize: inputOne.fontSize,
         value: canvasInputOne,
-        xAxis: 50,
-        yAxis: 50,
+        xAxis: inputOne.xAxis,
+        yAxis: inputOne.yAxis,
       },
     });
   };
 
   useEffect(() => {
     renderCanvas();
-  }, [canvasInputOne]);
+  }, [canvasInputOne, title]);
 
   return (
     <div className='container'>
@@ -36,6 +52,7 @@ const LsemsTitle = () => {
         canvas={canvas}
         canvasImage={canvasImage}
         renderCanvas={renderCanvas}
+        setLayout={setLayout}
       />
       <div className='inputs mb-5 form-group d-flex justify-content-center align-content-center flex-column text-center'>
         <label>Title/Separator</label>
@@ -51,4 +68,4 @@ const LsemsTitle = () => {
   );
 };
 
-export default LsemsTitle;
+export default connect(null, { loadLayoutSettings })(LsemsTitle);

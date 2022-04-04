@@ -1,14 +1,30 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, connect } from 'react-redux';
+
+import { BT_BRIK } from '../../utils/fontTypes';
+
 import HeaderImg from '../../assets/images/ems/header.png';
 import HeaderCanvas from '../shared/HeaderCanvas';
 import generateCanvas from '../../utils/generateCanvas';
-import { BT_BRIK } from '../../utils/fontTypes';
 
-const LsemsHeader = () => {
+import { loadLayoutSettings } from '../../actions/settingsWidget';
+import { EMS_LAYOUT_SETTINGS } from '../../actions/types';
+
+const LsemsHeader = ({ loadLayoutSettings }) => {
   const canvas = useRef();
   const canvasImage = useRef();
   const [canvasInputOne, setCanvasInputOne] = useState('');
   const [canvasInputTwo, setCanvasInputTwo] = useState('');
+
+  const { header } = useSelector((state) => state.ems.layout);
+
+  const { inputOne, inputTwo } = header;
+
+  const setLayout = () =>
+    loadLayoutSettings(EMS_LAYOUT_SETTINGS, `ems.header`, {
+      height: canvasImage.current.naturalHeight,
+      width: canvasImage.current.naturalWidth,
+    });
 
   const renderCanvas = () => {
     generateCanvas({
@@ -17,24 +33,24 @@ const LsemsHeader = () => {
       textAlign: 'center',
       fillStyle: 'white',
       fontFamily: BT_BRIK,
-      firstInput: {
-        fontSize: 72,
+      inputOne: {
+        fontSize: inputOne.fontSize,
         value: canvasInputOne,
-        xAxis: 1190,
-        yAxis: 140,
+        xAxis: inputOne.xAxis,
+        yAxis: inputOne.yAxis,
       },
-      secondInput: {
-        fontSize: 52,
+      inputTwo: {
+        fontSize: inputTwo.fontSize,
         value: canvasInputTwo,
-        xAxis: 1190,
-        yAxis: 190,
+        xAxis: inputTwo.xAxis,
+        yAxis: inputTwo.yAxis,
       },
     });
   };
 
   useEffect(() => {
     renderCanvas();
-  }, [canvasInputOne, canvasInputTwo]);
+  }, [canvasInputOne, canvasInputTwo, header]);
 
   return (
     <div className='container'>
@@ -43,6 +59,7 @@ const LsemsHeader = () => {
         canvas={canvas}
         canvasImage={canvasImage}
         renderCanvas={renderCanvas}
+        setLayout={setLayout}
       />
       <div className='inputs my-4 form-group d-flex justify-content-center align-content-center flex-column text-center'>
         <label>Header 1</label>
@@ -66,4 +83,4 @@ const LsemsHeader = () => {
   );
 };
 
-export default LsemsHeader;
+export default connect(null, { loadLayoutSettings })(LsemsHeader);

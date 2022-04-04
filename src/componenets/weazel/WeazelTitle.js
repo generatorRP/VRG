@@ -1,13 +1,28 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, connect } from 'react-redux';
+
 import TitleImg from '../../assets/images/weazel/title.png';
 import HeaderCanvas from '../shared/HeaderCanvas';
 import generateCanvas from '../../utils/generateCanvas';
-import { BT_BRIK } from '../../utils/fontTypes';
 
-const WeazelTitle = () => {
+import { BT_BRIK } from '../../utils/fontTypes';
+import { loadLayoutSettings } from '../../actions/settingsWidget';
+import { WEAZEL_LAYOUT_SETTINGS } from '../../actions/types';
+
+const WeazelTitle = ({ loadLayoutSettings }) => {
   const canvas = useRef();
   const canvasImage = useRef();
   const [canvasInputOne, setCanvasInputOne] = useState('');
+
+  const { title } = useSelector((state) => state.weazel.layout);
+
+  const { inputOne } = title;
+
+  const setLayout = () =>
+    loadLayoutSettings(WEAZEL_LAYOUT_SETTINGS, `weazel.title`, {
+      height: canvasImage.current.naturalHeight,
+      width: canvasImage.current.naturalWidth,
+    });
 
   const renderCanvas = () => {
     generateCanvas({
@@ -17,18 +32,18 @@ const WeazelTitle = () => {
       fillStyle: '#2a2a2a',
       shadowColor: '#696969',
       fontFamily: BT_BRIK,
-      firstInput: {
-        fontSize: 52,
+      inputOne: {
+        fontSize: inputOne.fontSize,
         value: canvasInputOne,
-        xAxis: 50,
-        yAxis: 50,
+        xAxis: inputOne.xAxis,
+        yAxis: inputOne.yAxis,
       },
     });
   };
 
   useEffect(() => {
     renderCanvas();
-  }, [canvasInputOne]);
+  }, [canvasInputOne, title]);
 
   return (
     <div className='container'>
@@ -37,6 +52,7 @@ const WeazelTitle = () => {
         canvas={canvas}
         canvasImage={canvasImage}
         renderCanvas={renderCanvas}
+        setLayout={setLayout}
       />
       <div className='inputs mb-5 form-group d-flex justify-content-center align-content-center flex-column text-center'>
         <label>Title/Separator</label>
@@ -52,4 +68,4 @@ const WeazelTitle = () => {
   );
 };
 
-export default WeazelTitle;
+export default connect(null, { loadLayoutSettings })(WeazelTitle);

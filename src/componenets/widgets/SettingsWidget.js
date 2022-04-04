@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Drawer,
-  Divider,
-  Typography,
-  TextField,
-  InputAdornment,
-} from '@mui/material';
-import { Settings, TextFields } from '@mui/icons-material';
+import { useSelector } from 'react-redux';
 
-const SettingsWidget = () => {
+import { Box, Drawer, Divider, Typography } from '@mui/material';
+import { Settings } from '@mui/icons-material';
+
+import SettingsGroup from './SettingsGroup';
+
+const SettingsWidget = ({ color = '#000' }) => {
   const [open, setOpen] = useState(false);
 
   const toggleSidebar = () => {
     setOpen(!open);
   };
 
+  const layout = useSelector((state) => {
+    let { layoutName, layoutAction } = state.settingsWidget;
+    return layoutName ? { ...state[layoutName].layout[layoutAction] } : {};
+  });
+
   return (
     <>
       {!open && (
-        <div className='settings-widget'>
+        <div className='settings-widget' style={{ backgroundColor: color }}>
           <div className='icon' onClick={toggleSidebar}>
             <Settings fontSize='large' />
           </div>
@@ -33,38 +35,14 @@ const SettingsWidget = () => {
             onClick={toggleSidebar}
           ></button>
           <Box component='div'>
-            <Typography variant='h6' className='mb-3'>
-              Generator Settings
+            <Typography variant='h5' className='mb-1'>
+              Generator Configuration
             </Typography>
-            <Box className='wrapper' component='div'>
-              <div className='px-2 py-3'>
-                <TextField
-                  label='Header 1'
-                  variant='outlined'
-                  fullWidth
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <TextFields />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </div>
-              <div className='px-2 py-3'>
-                <TextField
-                  label='Header 2'
-                  variant='outlined'
-                  fullWidth
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <TextFields />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </div>
+            <Divider className='mb-3' />
+            <Box component='div'>
+              {Object.entries(layout).map((entry) => (
+                <SettingsGroup entry={entry} key={`${entry[0]}`} />
+              ))}
             </Box>
           </Box>
         </Box>

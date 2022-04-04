@@ -1,7 +1,13 @@
 import { combineReducers } from 'redux';
 
-import config from './config';
+import cab from './cab';
+import ems from './ems';
+import weazel from './weazel';
+import settingsWidget from './settingsWidget';
 
 export default combineReducers({
-  config,
+  cab,
+  ems,
+  weazel,
+  settingsWidget,
 });

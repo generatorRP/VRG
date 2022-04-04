@@ -1,14 +1,29 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, connect } from 'react-redux';
+
 import HeaderImg from '../../assets/images/cab/header.png';
 import HeaderCanvas from '../shared/HeaderCanvas';
 import generateCanvas from '../../utils/generateCanvas';
-import { BT_BRIK } from '../../utils/fontTypes';
 
-const CabHeader = () => {
+import { BT_BRIK } from '../../utils/fontTypes';
+import { loadLayoutSettings } from '../../actions/settingsWidget';
+import { CAB_LAYOUT_SETTINGS } from '../../actions/types';
+
+const CabHeader = ({ loadLayoutSettings }) => {
   const canvas = useRef();
   const canvasImage = useRef();
   const [canvasInputOne, setCanvasInputOne] = useState('');
   const [canvasInputTwo, setCanvasInputTwo] = useState('');
+
+  const { header } = useSelector((state) => state.cab.layout);
+
+  const { inputOne, inputTwo } = header;
+
+  const setLayout = () =>
+    loadLayoutSettings(CAB_LAYOUT_SETTINGS, `cab.header`, {
+      height: canvasImage.current.naturalHeight,
+      width: canvasImage.current.naturalWidth,
+    });
 
   const renderCanvas = () => {
     generateCanvas({
@@ -17,24 +32,24 @@ const CabHeader = () => {
       textAlign: 'center',
       fillStyle: 'white',
       fontFamily: BT_BRIK,
-      firstInput: {
-        fontSize: 72,
+      inputOne: {
+        fontSize: inputOne.fontSize,
         value: canvasInputOne,
-        xAxis: 1100,
-        yAxis: 140,
+        xAxis: inputOne.xAxis,
+        yAxis: inputOne.yAxis,
       },
-      secondInput: {
-        fontSize: 52,
+      inputTwo: {
+        fontSize: inputTwo.fontSize,
         value: canvasInputTwo,
-        xAxis: 1100,
-        yAxis: 200,
+        xAxis: inputTwo.xAxis,
+        yAxis: inputTwo.yAxis,
       },
     });
   };
 
   useEffect(() => {
     renderCanvas();
-  }, [canvasInputOne, canvasInputTwo]);
+  }, [canvasInputOne, canvasInputTwo, header]);
 
   return (
     <div className='container'>
@@ -43,6 +58,7 @@ const CabHeader = () => {
         canvas={canvas}
         canvasImage={canvasImage}
         renderCanvas={renderCanvas}
+        setLayout={setLayout}
       />
       <div className='inputs my-4 form-group d-flex justify-content-center align-content-center flex-column text-center'>
         <label>Header 1</label>
@@ -66,4 +82,4 @@ const CabHeader = () => {
   );
 };
 
-export default CabHeader;
+export default connect(null, { loadLayoutSettings })(CabHeader);

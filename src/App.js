@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 import 'bootstrap';
+import './utils/convertText';
 import {
   BrowserRouter as Router,
   Route,

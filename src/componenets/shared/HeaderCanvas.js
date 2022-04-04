@@ -1,6 +1,12 @@
 import React from 'react';
 
-const HeaderCanvas = ({ renderCanvas, canvas, canvasImage, img }) => {
+const HeaderCanvas = ({
+  renderCanvas,
+  canvas,
+  canvasImage,
+  img,
+  setLayout,
+}) => {
   return (
     <div>
       <canvas
@@ -15,6 +21,7 @@ const HeaderCanvas = ({ renderCanvas, canvas, canvasImage, img }) => {
         alt=''
         onLoad={() => {
           renderCanvas();
+          setLayout();
           canvas.current.style.height = 'auto';
         }}
       />

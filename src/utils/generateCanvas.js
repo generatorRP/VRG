@@ -14,8 +14,8 @@ export default ({
   rankText = null,
   fullname = null,
   badge = null,
-  firstInput = null,
-  secondInput = null,
+  inputOne = null,
+  inputTwo = null,
 }) => {
   const ctx = canvas.getContext('2d');
   // Canvas dimensions
@@ -40,8 +40,8 @@ export default ({
   if (badge) setProperties(ctx, badge, fontFamily);
   if (rankText) setProperties(ctx, rankText, fontFamily);
   if (fullname) setProperties(ctx, fullname, fontFamily);
-  if (firstInput) setProperties(ctx, firstInput, fontFamily);
-  if (secondInput) setProperties(ctx, secondInput, fontFamily);
+  if (inputOne) setProperties(ctx, inputOne, fontFamily);
+  if (inputTwo) setProperties(ctx, inputTwo, fontFamily);
 };
 
 const setProperties = (ctx, { fontSize, value, xAxis, yAxis }, fontFamily) => {
@@ -63,11 +63,11 @@ badge = {
   fontSize: 46,
   fontFamily: 'Source Sans Pro',
 },
-firstInput = {
+inputOne = {
   fontSize: 72,
   fontFamily: 'BTBrikRegular',
 },
-secondInput = {
+inputTwo = {
   fontSize: 52,
   fontFamily: 'BTBrikRegular',
 },

@@ -18,8 +18,7 @@ const Lsems = () => {
     <>
       <div className='generator-page ems'>
         <LsemsNav />
-        {/* Feature */}
-        <SettingsWidget />
+        <SettingsWidget color={'rgb(103, 5, 0)'} />
         <Routes>
           <Route index element={<LsemsHeader />} />
           <Route path='title' element={<LsemsTitle />} />

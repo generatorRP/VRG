@@ -4,6 +4,7 @@ import CabNav from './CabNav';
 import CabHeader from './CabHeader';
 import CabTitle from './CabTitle';
 import CabFav from '../../assets/images/cab/logo.png';
+import SettingsWidget from '../widgets/SettingsWidget';
 
 import { changeFavIcon, changeSiteName } from '../../utils/siteSettings';
 import CabSignature from './CabSignature';
@@ -17,6 +18,7 @@ const Cab = () => {
     <>
       <div className='generator-page cab'>
         <CabNav />
+        <SettingsWidget />
         <Routes>
           <Route index element={<CabHeader />} />
           <Route path='title' element={<CabTitle />} />

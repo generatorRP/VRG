@@ -1,12 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
+import { connect, useSelector } from 'react-redux';
+
+import { SANS_PRO } from '../../utils/fontTypes';
+
 import SignatureImg from '../../assets/images/ems/signature.png';
 import HeaderCanvas from '../shared/HeaderCanvas';
 import SignatureItem from '../shared/SignatureItem';
 import generateCanvas from '../../utils/generateCanvas';
-import { SANS_PRO } from '../../utils/fontTypes';
 
-const LsemsSignature = () => {
+import { loadLayoutSettings } from '../../actions/settingsWidget';
+import { EMS_LAYOUT_SETTINGS } from '../../actions/types';
+
+const LsemsSignature = ({ loadLayoutSettings }) => {
   const canvas = useRef();
   const rankImg = useRef();
   const canvasImage = useRef();
@@ -19,7 +25,15 @@ const LsemsSignature = () => {
   const [selectedRank, setSelectedRank] = useState(null);
   const [selectedRankImg, setSelectedRankImg] = useState(null);
 
-  const { ranks } = useSelector((state) => state.config.ems);
+  const { ranks } = useSelector((state) => state.ems);
+
+  const { signature } = useSelector((state) => state.ems.layout);
+
+  const setLayout = () =>
+    loadLayoutSettings(EMS_LAYOUT_SETTINGS, 'ems.signature', {
+      height: canvasImage.current.naturalHeight,
+      width: canvasImage.current.naturalWidth,
+    });
 
   const { fullname, badge, canvasInputOne, canvasInputTwo } = signatureData;
 
@@ -31,33 +45,33 @@ const LsemsSignature = () => {
       fillStyle: 'white',
       fontFamily: SANS_PRO,
       fullname: {
-        fontSize: 60,
+        fontSize: signature.fullname.fontSize,
         value: fullname,
-        xAxis: 700,
-        yAxis: 130,
+        xAxis: signature.fullname.xAxis,
+        yAxis: signature.fullname.yAxis,
       },
       badge: {
-        fontSize: 46,
+        fontSize: signature.badge.fontSize,
         value: badge,
-        xAxis: 700,
-        yAxis: 190,
+        xAxis: signature.badge.xAxis,
+        yAxis: signature.badge.yAxis,
       },
       rankImg: selectedRankImg && {
         img: rankImg.current,
-        xAxis: 465,
-        yAxis: 105,
+        xAxis: signature.rankImg.xAxis,
+        yAxis: signature.rankImg.yAxis,
       },
-      firstInput: {
-        fontSize: 34,
+      inputOne: {
+        fontSize: signature.inputOne.fontSize,
         value: canvasInputOne,
-        xAxis: 700,
-        yAxis: 260,
+        xAxis: signature.inputOne.xAxis,
+        yAxis: signature.inputOne.yAxis,
       },
-      secondInput: {
-        fontSize: 34,
+      inputTwo: {
+        fontSize: signature.inputTwo.fontSize,
         value: canvasInputTwo,
-        xAxis: 700,
-        yAxis: 310,
+        xAxis: signature.inputTwo.xAxis,
+        yAxis: signature.inputTwo.yAxis,
       },
     });
   };
@@ -71,6 +85,7 @@ const LsemsSignature = () => {
     canvasInputTwo,
     selectedRank,
     selectedRankImg,
+    signature,
   ]);
 
   const onChange = (e) => {
@@ -84,7 +99,7 @@ const LsemsSignature = () => {
       <div className='row justify-content-between mt-3 px-2 ranks'>
         {ranks.map((rank) => (
           <SignatureItem
-            key={`${rank}-${Math.floor(Math.random() * 10)}`}
+            key={uuidv4()}
             value={rank}
             selected={rank === selectedRank}
             setSelectedRank={setSelectedRank}
@@ -98,6 +113,7 @@ const LsemsSignature = () => {
         canvas={canvas}
         canvasImage={canvasImage}
         renderCanvas={renderCanvas}
+        setLayout={setLayout}
       />
 
       <img
@@ -156,4 +172,4 @@ const LsemsSignature = () => {
   );
 };
 
-export default LsemsSignature;
+export default connect(null, { loadLayoutSettings })(LsemsSignature);

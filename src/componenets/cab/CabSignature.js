@@ -1,12 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
+import { connect, useSelector } from 'react-redux';
+
+import { SANS_PRO } from '../../utils/fontTypes';
+
 import SignatureImg from '../../assets/images/cab/signature.png';
 import HeaderCanvas from '../shared/HeaderCanvas';
 import SignatureItem from '../shared/SignatureItem';
 import generateCanvas from '../../utils/generateCanvas';
-import { SANS_PRO } from '../../utils/fontTypes';
 
-const CabSignature = () => {
+import { loadLayoutSettings } from '../../actions/settingsWidget';
+import { CAB_LAYOUT_SETTINGS } from '../../actions/types';
+
+const CabSignature = ({ loadLayoutSettings }) => {
   const canvas = useRef();
   const canvasImage = useRef();
   const [signatureData, setSignatureData] = useState({
@@ -17,7 +23,15 @@ const CabSignature = () => {
   });
   const [selectedRank, setSelectedRank] = useState(null);
 
-  const { ranks } = useSelector((state) => state.config.cab);
+  const { ranks } = useSelector((state) => state.cab);
+
+  const { signature } = useSelector((state) => state.cab.layout);
+
+  const setLayout = () =>
+    loadLayoutSettings(CAB_LAYOUT_SETTINGS, 'cab.signature', {
+      height: canvasImage.current.naturalHeight,
+      width: canvasImage.current.naturalWidth,
+    });
 
   const { fullname, badge, canvasInputOne, canvasInputTwo } = signatureData;
 
@@ -27,42 +41,50 @@ const CabSignature = () => {
       canvasImage: canvasImage.current,
       textAlign: 'left',
       fillStyle: 'white',
+      fontFamily: SANS_PRO,
       fullname: {
-        fontSize: 68,
+        fontSize: signature.fullname.fontSize,
         value: fullname,
-        xAxis: 500,
-        yAxis: 130,
+        xAxis: signature.fullname.xAxis,
+        yAxis: signature.fullname.yAxis,
       },
       badge: {
-        fontSize: 46,
+        fontSize: signature.badge.fontSize,
         value: badge,
-        xAxis: 500,
-        yAxis: 190,
+        xAxis: signature.badge.xAxis,
+        yAxis: signature.badge.yAxis,
       },
       rankText: selectedRank && {
-        fontSize: 34,
+        fontSize: signature.rankText.fontSize,
         value: selectedRank,
-        xAxis: 500,
-        yAxis: 255,
+        xAxis: signature.rankText.xAxis,
+        yAxis: signature.rankText.yAxis,
       },
-      firstInput: {
-        fontSize: 34,
+      inputOne: {
+        fontSize: signature.inputOne.fontSize,
         value: canvasInputOne,
-        xAxis: 500,
-        yAxis: 305,
+        xAxis: signature.inputOne.xAxis,
+        yAxis: signature.inputOne.yAxis,
       },
-      secondInput: {
-        fontSize: 34,
+      inputTwo: {
+        fontSize: signature.inputTwo.fontSize,
         value: canvasInputTwo,
-        xAxis: 500,
-        yAxis: 350,
+        xAxis: signature.inputTwo.xAxis,
+        yAxis: signature.inputTwo.yAxis,
       },
     });
   };
 
   useEffect(() => {
     renderCanvas();
-  }, [fullname, badge, canvasInputOne, canvasInputTwo, selectedRank]);
+  }, [
+    fullname,
+    badge,
+    canvasInputOne,
+    canvasInputTwo,
+    selectedRank,
+    signature,
+  ]);
 
   const onChange = (e) => {
     setSignatureData({
@@ -76,7 +98,7 @@ const CabSignature = () => {
       <div className='row justify-content-between mt-3 px-2 ranks'>
         {ranks.map((rank) => (
           <SignatureItem
-            key={`${rank}-${Math.floor(Math.random() * 10)}`}
+            key={uuidv4()}
             value={rank}
             selected={rank === selectedRank}
             setSelectedRank={setSelectedRank}
@@ -89,6 +111,7 @@ const CabSignature = () => {
         canvas={canvas}
         canvasImage={canvasImage}
         renderCanvas={renderCanvas}
+        setLayout={setLayout}
       />
 
       <form className='inputs my-4 form-group d-flex justify-content-center align-content-center flex-column text-sm-left'>
@@ -139,4 +162,4 @@ const CabSignature = () => {
   );
 };
 
-export default CabSignature;
+export default connect(null, { loadLayoutSettings })(CabSignature);

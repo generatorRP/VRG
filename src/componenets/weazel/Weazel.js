@@ -4,6 +4,7 @@ import WeazelNav from './WeazelNav';
 import WeazelHeader from './WeazelHeader';
 import WeazelTitle from './WeazelTitle';
 import WeazelFav from '../../assets/images/weazel/logo.png';
+import SettingsWidget from '../widgets/SettingsWidget';
 
 import { changeFavIcon, changeSiteName } from '../../utils/siteSettings';
 
@@ -16,6 +17,7 @@ const Weazel = () => {
     <>
       <div className='generator-page weazel'>
         <WeazelNav />
+        <SettingsWidget />
         <Routes>
           <Route index element={<WeazelHeader />} />
           <Route path='title' element={<WeazelTitle />} />
