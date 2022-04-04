@@ -20,7 +20,7 @@ import Cab from './componenets/cab/Cab';
 function App() {
   return (
     <Provider store={store}>
-      <Router basename='VRG'>
+      <Router>
         <Routes>
           <Route index element={<Home />} />
           <Route path='ems/*' element={<LSEMS />} />
