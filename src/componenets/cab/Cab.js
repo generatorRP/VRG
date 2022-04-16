@@ -16,7 +16,7 @@ const Cab = () => {
   }, []);
   return (
     <>
-      <div className='generator-page cab'>
+      <div className='cab'>
         <CabNav />
         <SettingsWidget />
         <Routes>

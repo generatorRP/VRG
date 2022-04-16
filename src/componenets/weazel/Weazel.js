@@ -15,7 +15,7 @@ const Weazel = () => {
   }, []);
   return (
     <>
-      <div className='generator-page weazel'>
+      <div className='weazel'>
         <WeazelNav />
         <SettingsWidget />
         <Routes>

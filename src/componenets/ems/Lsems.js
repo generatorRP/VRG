@@ -16,7 +16,7 @@ const Lsems = () => {
   }, []);
   return (
     <>
-      <div className='generator-page ems'>
+      <div className='ems'>
         <LsemsNav />
         <SettingsWidget color={'rgb(103, 5, 0)'} />
         <Routes>
