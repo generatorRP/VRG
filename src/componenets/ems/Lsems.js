@@ -10,25 +10,25 @@ import { changeFavIcon, changeSiteName } from '../../utils/siteSettings';
 import LsemsSignature from './LsemsSignature';
 
 const Lsems = () => {
-  useEffect(() => {
-    changeFavIcon(LsemsFav);
-    changeSiteName('Los Santos Emeregency Medical Services');
-  }, []);
-  return (
-    <>
-      <div className='ems'>
-        <LsemsNav />
-        <SettingsWidget color={'rgb(103, 5, 0)'} />
-        <Routes>
-          <Route index element={<LsemsHeader />} />
-          <Route path='title' element={<LsemsTitle />} />
-          <Route path='signature' element={<LsemsSignature />} />
-          <Route path='*' element={<h2>NOT FOUND</h2>} />
-        </Routes>
-      </div>
-      <Outlet />
-    </>
-  );
+	useEffect(() => {
+		changeFavIcon(LsemsFav);
+		changeSiteName('Los Santos Emeregency Medical Services');
+	}, []);
+	return (
+		<div className='generator-page'>
+			<div className='ems'>
+				<LsemsNav />
+				<SettingsWidget color={'rgb(103, 5, 0)'} />
+				<Routes>
+					<Route index element={<LsemsHeader />} />
+					<Route path='title' element={<LsemsTitle />} />
+					<Route path='signature' element={<LsemsSignature />} />
+					<Route path='*' element={<h2>NOT FOUND</h2>} />
+				</Routes>
+			</div>
+			<Outlet />
+		</div>
+	);
 };
 
 export default Lsems;

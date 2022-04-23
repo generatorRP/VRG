@@ -9,25 +9,25 @@ import SettingsWidget from '../widgets/SettingsWidget';
 import { changeFavIcon, changeSiteName } from '../../utils/siteSettings';
 
 const Weazel = () => {
-  useEffect(() => {
-    changeFavIcon(WeazelFav);
-    changeSiteName('Weazel News');
-  }, []);
-  return (
-    <>
-      <div className='weazel'>
-        <WeazelNav />
-        <SettingsWidget />
-        <Routes>
-          <Route index element={<WeazelHeader />} />
-          <Route path='title' element={<WeazelTitle />} />
-          <Route path='signature' element={<h2>Signature</h2>} />
-          <Route path='*' element={<h2>NOT FOUND</h2>} />
-        </Routes>
-      </div>
-      <Outlet />
-    </>
-  );
+	useEffect(() => {
+		changeFavIcon(WeazelFav);
+		changeSiteName('Weazel News');
+	}, []);
+	return (
+		<div className='generator-page'>
+			<div className='weazel'>
+				<WeazelNav />
+				<SettingsWidget />
+				<Routes>
+					<Route index element={<WeazelHeader />} />
+					<Route path='title' element={<WeazelTitle />} />
+					<Route path='signature' element={<h2>Signature</h2>} />
+					<Route path='*' element={<h2>NOT FOUND</h2>} />
+				</Routes>
+			</div>
+			<Outlet />
+		</div>
+	);
 };
 
 export default Weazel;

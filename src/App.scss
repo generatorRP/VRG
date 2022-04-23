@@ -38,6 +38,12 @@ a {
     width: 250px;
   }
 }
+.background-dark {
+  min-height: 100vh;
+  background-color: #212121;
+  background-image: url(assets/images/bg-pattern.png);
+  overflow: auto;
+}
 
 .generator-page {
   min-height: 100vh;
